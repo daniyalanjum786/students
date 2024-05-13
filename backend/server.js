@@ -1,5 +1,9 @@
 import express from "express";
 import colors from "colors";
+import connectDB from "./config/db.js";
+
+// Database connection
+connectDB();
 
 const app = express();
 
