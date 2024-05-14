@@ -1,15 +1,14 @@
 import multer from "multer";
-import { uploadImageOnCloudinary } from "../helpers/cloudinaryHelper.js";
+import { v4 as uuidv4 } from "uuid";
+import path from "path";
 
-// Multer configuration
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/images/"); // Save uploaded files to the 'uploads' directory
+    cb(null, "public/images/");
   },
   filename: function (req, file, cb) {
-    // Generate unique filename
-    const fileName = Date.now() + "-" + file.originalname;
-    cb(null, fileName);
+    const newFileName = uuidv4() + path.extname(file.originalname);
+    cb(null, newFileName);
   },
 });
 
