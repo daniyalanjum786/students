@@ -28,6 +28,7 @@ const registerController = async (req, res) => {
         console.error("Error uploading image:", error);
         return error;
       });
+
     if (!imageUploadResult) {
       return res.status(400).send({
         success: false,
@@ -40,7 +41,10 @@ const registerController = async (req, res) => {
       name,
       email,
       password: encryptedPassword,
-      picture: imageUploadResult.url,
+      picture: {
+        picture_url: imageUploadResult.url,
+        public_id: imageUploadResult.public_id,
+      },
     });
 
     return res

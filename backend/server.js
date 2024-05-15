@@ -20,7 +20,7 @@ import userRoutes from "./routes/userRoutes.js";
 
 //http://localhost:8000 => Site URL
 //http://localhost:8000/api/v1/user
-app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/users", userRoutes);
 
 const PORT = 8000;
 

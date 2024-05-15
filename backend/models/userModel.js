@@ -18,8 +18,14 @@ const userSchema = new mongoose.Schema(
       required: true,
     },
     picture: {
-      type: String,
-      required: true,
+      picture_url: {
+        type: String,
+        required: true,
+      },
+      public_id: {
+        type: String,
+        required: true,
+      },
     },
     role: {
       type: Number,
