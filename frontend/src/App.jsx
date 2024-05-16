@@ -1,7 +1,18 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
+import RegisterPage from "./pages/RegisterPage";
+
 function App() {
   return (
     <>
-      <h1>React Project With Tailwind</h1>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
