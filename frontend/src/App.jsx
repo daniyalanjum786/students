@@ -1,7 +1,7 @@
 function App() {
   return (
     <>
-      <h1>ShopWave Frontend</h1>
+      <h1>React Project With Tailwind</h1>
     </>
   );
 }
