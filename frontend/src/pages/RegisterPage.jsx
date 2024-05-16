@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 export default function LoginForm() {
   return (
     <section className="flex justify-center items-center h-screen">
-      <Card className="max-w-sm">
+      <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-xl">Sign Up</CardTitle>
           <CardDescription>

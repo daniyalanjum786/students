@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 export default function LoginPage() {
   return (
     <section className="flex justify-center items-center h-screen">
-      <Card className="max-w-sm  py-5">
+      <Card className="w-full max-w-sm  py-5">
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
