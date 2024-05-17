@@ -3,7 +3,6 @@ import {
   Bell,
   CircleUser,
   Home,
-  LineChart,
   Menu,
   Package,
   Package2,
@@ -11,15 +10,8 @@ import {
   ShoppingCart,
   Users,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
