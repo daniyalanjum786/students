@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,9 +12,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function RegisterPage() {
   const [inputValues, setInputValues] = useState({});
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -26,17 +28,21 @@ export default function RegisterPage() {
     event.preventDefault();
     // sending data from frontend to backend
     axios
-      .post("http://localhost:8080/api/v1/users/create", inputValues, {
+      .post("http://localhost:8000/api/v1/users/register", inputValues, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then((response) => {
-        console.log(response);
+        console.log("Response", response);
+        toast.success(response?.data?.message, { autoClose: 2000 });
         setInputValues({});
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
       })
       .catch((error) => {
-        console.log(error);
+        toast.error(error.response?.data.message, { autoClose: 2000 });
         setInputValues({});
       });
   };

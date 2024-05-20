@@ -3,6 +3,8 @@ import colors from "colors";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 // Database connection
@@ -14,12 +16,12 @@ const app = express();
 app.use(express.json());
 // to check from which url req is coming
 app.use(morgan("dev"));
+app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(cookieParser());
 
 // import routes
 import userRoutes from "./routes/userRoutes.js";
 
-//http://localhost:8000 => Site URL
-//http://localhost:8000/api/v1/user
 app.use("/api/v1/users", userRoutes);
 
 const PORT = 8000;

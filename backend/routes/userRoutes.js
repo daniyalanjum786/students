@@ -9,7 +9,8 @@ const router = express.Router();
 
 //localhost:8000/api/v1/user/register
 
-router.post("/register", upload.single("picture"), registerController);
+// router.post("/register", upload.single("picture"), registerController);
+router.post("/register", registerController);
 router.post("/login", loginController);
 
 export default router;

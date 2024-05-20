@@ -6,6 +6,7 @@ import Products from "./pages/Admin/Products";
 import Users from "./pages/Admin/Users";
 import Orders from "./pages/Admin/Orders";
 import Dashboard from "./pages/Admin/Dashboard";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
         </Routes>
+        <ToastContainer />
       </BrowserRouter>
     </>
   );

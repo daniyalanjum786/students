@@ -6,11 +6,11 @@ import jwt from "jsonwebtoken";
 const registerController = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-    const picture = req.file?.fieldname;
-    const picturePath = req.file?.path;
-    console.log(picture);
+    // const picture = req.file?.fieldname;
+    // const picturePath = req.file?.path;
+    // console.log(picture);
 
-    if (!name || !email || !password || !picture) {
+    if (!name || !email || !password) {
       return res
         .status(400)
         .send({ success: false, message: "Please fill all the fields" });
@@ -23,31 +23,31 @@ const registerController = async (req, res) => {
 
     const encryptedPassword = await passwordEncrypt(password);
 
-    const imageUploadResult = await uploadImageOnCloudinary(picturePath)
-      .then((result) => {
-        return result;
-      })
-      .catch((error) => {
-        console.error("Error uploading image:", error);
-        return error;
-      });
+    // const imageUploadResult = await uploadImageOnCloudinary(picturePath)
+    //   .then((result) => {
+    //     return result;
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error uploading image:", error);
+    //     return error;
+    //   });
 
-    if (!imageUploadResult) {
-      return res.status(400).send({
-        success: false,
-        message: "Error uploading image",
-        imageUploadResult,
-      });
-    }
+    // if (!imageUploadResult) {
+    //   return res.status(400).send({
+    //     success: false,
+    //     message: "Error uploading image",
+    //     imageUploadResult,
+    //   });
+    // }
 
     const user = await userModel.create({
       name,
       email,
       password: encryptedPassword,
-      picture: {
-        picture_url: imageUploadResult.url,
-        public_id: imageUploadResult.public_id,
-      },
+      // picture: {
+      //   picture_url: imageUploadResult.url,
+      //   public_id: imageUploadResult.public_id,
+      // },
     });
 
     return res
