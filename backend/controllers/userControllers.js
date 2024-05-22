@@ -112,4 +112,17 @@ const loginController = async (req, res) => {
   }
 };
 
-export { registerController, loginController };
+const logoutController = (req, res) => {
+  // Clear token cookie
+  res.cookie("token", "", {
+    httpOnly: true,
+    expires: new Date(0), // Set expiry date to past to immediately expire the cookie
+    secure: true, // Set to true if served over HTTPS
+    sameSite: "strict", // Set to 'strict' to prevent CSRF attacks
+  });
+
+  // Send response indicating successful logout
+  res.status(200).send({ success: true, message: "Logout successful" });
+};
+
+export { registerController, loginController, logoutController };
