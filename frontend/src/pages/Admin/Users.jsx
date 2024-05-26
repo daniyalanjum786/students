@@ -1,6 +1,11 @@
-import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
 
 function Users() {
+  const getAllUsers = () => {};
+
+  useEffect(() => {
+    getAllUsers();
+  }, []);
   return (
     <>
       <div className="flex items-center">
@@ -10,15 +15,7 @@ function Users() {
         className="flex flex-1 items-center justify-center rounded-lg border border-dashed shadow-sm"
         x-chunk="dashboard-02-chunk-1"
       >
-        <div className="flex flex-col items-center gap-1 text-center">
-          <h3 className="text-2xl font-bold tracking-tight">
-            You have no users
-          </h3>
-          <p className="text-sm text-muted-foreground">
-            You can start selling as soon as you add a product.
-          </p>
-          <Button className="mt-4">Add Product</Button>
-        </div>
+        <div className="flex flex-col items-center gap-1 text-center"></div>
       </div>
     </>
   );

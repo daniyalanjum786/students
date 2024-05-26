@@ -125,4 +125,33 @@ const logoutController = (req, res) => {
   res.status(200).send({ success: true, message: "Logout successful" });
 };
 
-export { registerController, loginController, logoutController };
+// admin controllers
+
+const getAllUsersController = async (req, res) => {
+  try {
+    // all users
+    const users = await userModel.find({}).select("-password");
+    if (!users) {
+      return res.status(401).send({ success: false, message: "No user found" });
+    }
+    return res.status(200).send({
+      success: true,
+      total: users.length,
+      users,
+    });
+  } catch (error) {
+    console.log(`getAllUsersController Error - ${error}`);
+    res.status(400).send({
+      success: false,
+      message: "Error in getAllUsersController",
+      error,
+    });
+  }
+};
+
+export {
+  registerController,
+  loginController,
+  logoutController,
+  getAllUsersController,
+};

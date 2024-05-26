@@ -24,7 +24,7 @@ import userRoutes from "./routes/userRoutes.js";
 
 app.use("/api/v1/users", userRoutes);
 
-const PORT = 8000;
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(`Server is Running at PORT ${PORT}`.bgMagenta);
