@@ -1,4 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import {
   Bell,
   CircleUser,
@@ -22,8 +22,59 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/store/features/auth/authSlice";
+import { useEffect, useState } from "react";
 
 export default function DashboardLayout() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [message, setMessage] = useState(null);
+  const user = useSelector((state) => state.auth.user?.user);
+  useEffect(() => {
+    if (!user) {
+      setMessage("You are not logged in. Redirecting to login page...");
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
+    } else if (user.role !== 1) {
+      setMessage(
+        "You do not have admin privileges. Redirecting to homepage..."
+      );
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    }
+  }, [user, navigate]);
+
+  const handleLogout = () => {
+    dispatch(logout())
+      .unwrap()
+      .then((response) => {
+        if (response?.success == true) {
+          toast.success(response.message, { autoClose: 2000 });
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        } else {
+          toast.error(response.message, { autoClose: 2000 });
+        }
+      })
+      .catch((error) => {
+        toast.error(error, { autoClose: 2000 });
+      });
+  };
+
+  if (message) {
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <div className="text-center">
+          <p className="text-3xl">{message}</p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       {/* Sidebar  */}
@@ -152,7 +203,9 @@ export default function DashboardLayout() {
               <DropdownMenuItem>Settings</DropdownMenuItem>
               <DropdownMenuItem>Support</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <button className="px-3 py-2" onClick={handleLogout}>
+                Logout
+              </button>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>

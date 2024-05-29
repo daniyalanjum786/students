@@ -35,7 +35,7 @@ export default function LoginPage() {
         if (response?.success == true) {
           toast.success(response.message, { autoClose: 2000 });
           setTimeout(() => {
-            navigate("/admin");
+            navigate("/");
           }, 2000);
         } else {
           toast.error(response.message, { autoClose: 2000 });

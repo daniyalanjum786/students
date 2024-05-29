@@ -28,7 +28,7 @@ export default function RegisterPage() {
     event.preventDefault();
     // sending data from frontend to backend
     axios
-      .post("http://localhost:8000/api/v1/users/register", inputValues, {
+      .post(`${import.meta.env.VITE_BASE_URL}/users/register`, inputValues, {
         headers: {
           "Content-Type": "application/json",
         },

@@ -7,6 +7,7 @@ import Users from "./pages/Admin/Users";
 import Orders from "./pages/Admin/Orders";
 import Dashboard from "./pages/Admin/Dashboard";
 import { ToastContainer } from "react-toastify";
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="users" element={<Users />} />
             <Route path="orders" element={<Orders />} />
           </Route>
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
         </Routes>
