@@ -11,12 +11,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { login } from "@/store/features/auth/authSlice";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function LoginPage() {
   const [inputValues, setInputValues] = useState({});
+  const { status } = useSelector((state) => state.auth);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -81,8 +83,12 @@ export default function LoginPage() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit" className="w-full">
-              Sign in
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={status == "loading" ? true : false}
+            >
+              {status == "loading" ? "Signing in..." : "Sign in"}
             </Button>
           </CardFooter>
         </form>

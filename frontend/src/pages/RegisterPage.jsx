@@ -11,13 +11,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "@/store/features/auth/authSlice";
 
 export default function RegisterPage() {
   const [inputValues, setInputValues] = useState({});
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
+  const { status } = useSelector((state) => state.auth);
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
@@ -27,23 +29,20 @@ export default function RegisterPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
     // sending data from frontend to backend
-    axios
-      .post(`${import.meta.env.VITE_BASE_URL}/users/register`, inputValues, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+    dispatch(register(inputValues))
+      .unwrap()
       .then((response) => {
-        console.log("Response", response);
-        toast.success(response?.data?.message, { autoClose: 2000 });
-        setInputValues({});
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
+        if (response?.success == true) {
+          toast.success(response.message, { autoClose: 2000 });
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        } else {
+          toast.error(response.message, { autoClose: 2000 });
+        }
       })
       .catch((error) => {
-        toast.error(error.response?.data.message, { autoClose: 2000 });
-        setInputValues({});
+        toast.error(error, { autoClose: 2000 });
       });
   };
   return (
@@ -93,8 +92,14 @@ export default function RegisterPage() {
                   onChange={handleChange}
                 />
               </div>
-              <Button type="submit" className="w-full">
-                Create an account
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={status == "loading" ? true : false}
+              >
+                {status == "loading"
+                  ? "Creating Your Account..."
+                  : "Create an account"}
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
