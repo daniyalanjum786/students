@@ -8,6 +8,7 @@ import Orders from "./pages/Admin/Orders";
 import Dashboard from "./pages/Admin/Dashboard";
 import { ToastContainer } from "react-toastify";
 import HomePage from "./pages/HomePage";
+import AddProduct from "./pages/Admin/AddProduct";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/admin" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="products" element={<Products />} />
+            <Route path="products/add" element={<AddProduct />} />
             <Route path="users" element={<Users />} />
             <Route path="orders" element={<Orders />} />
           </Route>

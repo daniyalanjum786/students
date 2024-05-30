@@ -54,9 +54,7 @@ export default function DashboardLayout() {
       .then((response) => {
         if (response?.success == true) {
           toast.success(response.message, { autoClose: 2000 });
-          setTimeout(() => {
-            navigate("/");
-          }, 2000);
+          navigate("/login");
         } else {
           toast.error(response.message, { autoClose: 2000 });
         }
