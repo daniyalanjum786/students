@@ -14,16 +14,19 @@ cloudinary.config({
 });
 
 // Function to upload image to Cloudinary
-const uploadImageOnCloudinary = async (filePath) => {
-  return new Promise((resolve, reject) => {
-    cloudinary.uploader.upload(filePath, (error, result) => {
-      if (error) {
-        reject(error);
-      } else {
-        resolve(result);
-      }
-      fs.unlinkSync(filePath);
+const uploadImageOnCloudinary = async (filePath, folderName) => {
+  try {
+    const result = await cloudinary.uploader.upload(filePath, {
+      folder: folderName,
     });
-  });
+    try {
+      fs.unlinkSync(filePath);
+    } catch (err) {
+      console.error("Failed to delete local file:", err);
+    }
+    return result;
+  } catch (error) {
+    throw new Error(error);
+  }
 };
 export { uploadImageOnCloudinary };
