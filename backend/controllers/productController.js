@@ -4,6 +4,7 @@ import {
 } from "../helpers/cloudinaryHelper.js";
 import productModel from "../models/productModel.js";
 
+// Controller to create products
 const createProductController = async (req, res) => {
   try {
     const { title, description, category, price } = req.body;
@@ -60,6 +61,7 @@ const createProductController = async (req, res) => {
     });
   }
 };
+// Controller to update products
 const updateProductController = async (req, res) => {
   try {
     const { productId } = req.params;
@@ -117,7 +119,7 @@ const updateProductController = async (req, res) => {
     });
   }
 };
-
+// Controller to delete products
 const deleteProductController = async (req, res) => {
   try {
     const { productId } = req.params;
@@ -151,9 +153,59 @@ const deleteProductController = async (req, res) => {
     });
   }
 };
+// Controller to get all products
+const getAllProductsController = async (req, res) => {
+  try {
+    const products = await productModel.find().populate("user", "name email"); // Adjust the populate fields as needed
+    return res.status(200).send({
+      success: true,
+      message: "Products fetched successfully",
+      products,
+    });
+  } catch (error) {
+    console.log(`getAllProductsController Error - ${error}`);
+    res.status(500).send({
+      success: false,
+      message: "Error in getAllProductsController",
+      error,
+    });
+  }
+};
+// Controller to get a single product by ID
+const getSingleProductController = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    // Find the product by ID and populate the user field
+    const product = await productModel
+      .findById(productId)
+      .populate("user", "name email");
+
+    if (!product) {
+      return res
+        .status(404)
+        .send({ success: false, message: "Product not found" });
+    }
+
+    return res.status(200).send({
+      success: true,
+      message: "Product fetched successfully",
+      product,
+    });
+  } catch (error) {
+    console.log(`getSingleProductController Error - ${error}`);
+    res.status(500).send({
+      success: false,
+      message: "Error in getSingleProductController",
+      error,
+    });
+  }
+};
 
 export {
   createProductController,
   updateProductController,
   deleteProductController,
+  getAllProductsController,
+  getSingleProductController,
 };

@@ -3,6 +3,8 @@ import {
   createProductController,
   updateProductController,
   deleteProductController,
+  getAllProductsController,
+  getSingleProductController,
 } from "../controllers/productController.js";
 import { isAuthorized, isAdmin } from "../middlewares/authMiddleware.js";
 import { upload } from "../middlewares/multerMiddleware.js";
@@ -28,11 +30,19 @@ productRouter.put(
   upload.single("picture"),
   updateProductController
 );
+productRouter.get(
+  "/:productId",
+  isAuthorized,
+  isAdmin,
+  upload.single("picture"),
+  getSingleProductController
+);
 productRouter.delete(
   "/:productId",
   isAuthorized,
   isAdmin,
   deleteProductController
 );
+productRouter.get("/", getAllProductsController);
 
 export default productRouter;
