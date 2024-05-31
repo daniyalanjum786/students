@@ -24,9 +24,21 @@ const uploadImageOnCloudinary = async (filePath, folderName) => {
     } catch (err) {
       console.error("Failed to delete local file:", err);
     }
+    return {
+      secure_url: result.secure_url,
+      public_id: result.public_id,
+    };
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+// Function to delete image from Cloudinary
+const deleteImageOnCloudinary = async (publicId) => {
+  try {
+    const result = await cloudinary.uploader.destroy(publicId);
     return result;
   } catch (error) {
     throw new Error(error);
   }
 };
-export { uploadImageOnCloudinary };
+export { uploadImageOnCloudinary, deleteImageOnCloudinary };
