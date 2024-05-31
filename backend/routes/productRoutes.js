@@ -2,6 +2,7 @@ import express from "express";
 import {
   createProductController,
   updateProductController,
+  deleteProductController,
 } from "../controllers/productController.js";
 import { isAuthorized, isAdmin } from "../middlewares/authMiddleware.js";
 import { upload } from "../middlewares/multerMiddleware.js";
@@ -26,6 +27,12 @@ productRouter.put(
   isAdmin,
   upload.single("picture"),
   updateProductController
+);
+productRouter.delete(
+  "/:productId",
+  isAuthorized,
+  isAdmin,
+  deleteProductController
 );
 
 export default productRouter;
