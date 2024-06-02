@@ -17,7 +17,10 @@ const createCategoryController = async (req, res) => {
         .send({ success: false, message: "Category already exist" });
     }
 
-    const category = await categoryModel.create({ name });
+    const category = await categoryModel.create({
+      name,
+      slug: slugify(name, { lower: true, strict: true }),
+    });
     res.status(201).send({
       success: true,
       message: "Category created successfully",

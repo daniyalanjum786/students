@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import DashboardLayout from "./pages/Admin/DashboardLayout";
@@ -14,30 +14,36 @@ import Shop from "./pages/Shop";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Cart from "./pages/Cart";
+import Profile from "./pages/Profile";
+import Categories from "./pages/Admin/Categories";
+import AddCategory from "./pages/Admin/AddCategory";
 
 function App() {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith("/admin");
   return (
     <>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/admin" element={<DashboardLayout />}>
-            <Route index element={<Dashboard />} />
-            <Route path="products" element={<Products />} />
-            <Route path="products/add" element={<AddProduct />} />
-            <Route path="users" element={<Users />} />
-            <Route path="orders" element={<Orders />} />
-          </Route>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/shop" element={<Shop />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-        </Routes>
-        <ToastContainer />
-      </BrowserRouter>
+      {!isAdmin && <Navbar />}
+      <Routes>
+        <Route path="/admin" element={<DashboardLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="products" element={<Products />} />
+          <Route path="products/add" element={<AddProduct />} />
+          <Route path="categories" element={<Categories />} />
+          <Route path="categories/add" element={<AddCategory />} />
+          <Route path="users" element={<Users />} />
+          <Route path="orders" element={<Orders />} />
+        </Route>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+      </Routes>
+      <ToastContainer />
     </>
   );
 }

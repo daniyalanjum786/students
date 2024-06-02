@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import slugify from "slugify";
+// import slugify from "slugify";
 
 const categorySchema = new mongoose.Schema(
   {
@@ -8,6 +8,7 @@ const categorySchema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
+      lowercase: true,
     },
     slug: {
       type: String,
@@ -19,12 +20,12 @@ const categorySchema = new mongoose.Schema(
 );
 
 // Pre-save hook to generate slug from the name
-categorySchema.pre("save", function (next) {
-  if (this.isModified("name")) {
-    this.slug = slugify(this.name, { lower: true, strict: true });
-  }
-  next();
-});
+// categorySchema.pre("save", function (next) {
+//   if (this.isModified("name")) {
+//     this.slug = slugify(this.name, { lower: true, strict: true });
+//   }
+//   next();
+// });
 
 const categoryModel = mongoose.model("Category", categorySchema);
 

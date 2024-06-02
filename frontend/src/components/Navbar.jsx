@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 function Navbar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector((state) => state.auth.user?.user);
   const handleLogout = () => {
     dispatch(logout())
       .unwrap()
@@ -155,7 +155,13 @@ function Navbar() {
                 <DropdownMenuContent align="end">
                   <DropdownMenuLabel>My Account</DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Settings</DropdownMenuItem>
+                  <DropdownMenuItem>
+                    {user && user.role === 1 ? (
+                      <Link to="/admin">Dashboard</Link>
+                    ) : (
+                      <Link to="/profile">Profile</Link>
+                    )}
+                  </DropdownMenuItem>
                   <DropdownMenuItem>Support</DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem>

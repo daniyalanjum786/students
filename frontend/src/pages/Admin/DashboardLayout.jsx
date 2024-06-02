@@ -6,6 +6,7 @@ import {
   Menu,
   Package,
   Package2,
+  Package2Icon,
   Search,
   ShoppingCart,
   Users,
@@ -106,10 +107,17 @@ export default function DashboardLayout() {
               </Link>
               <Link
                 to="/admin/products"
-                className="flex items-center gap-3 rounded-lg bg-muted px-3 py-2 text-primary transition-all hover:text-primary"
+                className="flex items-center gap-3 rounded-lg text-muted-foreground px-3 py-2 transition-all hover:text-primary"
               >
                 <Package className="h-4 w-4" />
                 Products{" "}
+              </Link>
+              <Link
+                to="/admin/categories"
+                className="flex items-center gap-3 rounded-lg text-muted-foreground px-3 py-2 transition-all hover:text-primary"
+              >
+                <Package2Icon className="h-4 w-4" />
+                Categories{" "}
               </Link>
               <Link
                 to="/admin/users"
@@ -165,6 +173,13 @@ export default function DashboardLayout() {
                 >
                   <Package className="h-5 w-5" />
                   Products
+                </Link>
+                <Link
+                  to="/admin/categories"
+                  className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+                >
+                  <Package2Icon className="h-5 w-5" />
+                  Categories
                 </Link>
                 <Link
                   to="/admin/users"
