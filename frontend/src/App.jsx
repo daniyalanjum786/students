@@ -9,11 +9,17 @@ import Dashboard from "./pages/Admin/Dashboard";
 import { ToastContainer } from "react-toastify";
 import HomePage from "./pages/HomePage";
 import AddProduct from "./pages/Admin/AddProduct";
+import Navbar from "./components/Navbar";
+import Shop from "./pages/Shop";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Cart from "./pages/Cart";
 
 function App() {
   return (
     <>
       <BrowserRouter>
+        <Navbar />
         <Routes>
           <Route path="/admin" element={<DashboardLayout />}>
             <Route index element={<Dashboard />} />
@@ -23,6 +29,10 @@ function App() {
             <Route path="orders" element={<Orders />} />
           </Route>
           <Route path="/" element={<HomePage />} />
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
         </Routes>
