@@ -32,6 +32,40 @@ const readAll = async () => {
     return Promise.reject(errorMessage);
   }
 };
+const readSingle = async (slug) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/categories/${slug}`, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.message || error.message || "Something went wrong";
+    return Promise.reject(errorMessage);
+  }
+};
+const update = async ({ name, slug }) => {
+  try {
+    const response = await axios.put(
+      `${BASE_URL}/categories/${slug}`,
+      { name },
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.message || error.message || "Something went wrong";
+    return Promise.reject(errorMessage);
+  }
+};
 
 const deleteCat = async (slug) => {
   try {
@@ -49,5 +83,5 @@ const deleteCat = async (slug) => {
   }
 };
 
-const categoryService = { create, readAll, deleteCat };
+const categoryService = { create, readAll, deleteCat, readSingle, update };
 export default categoryService;

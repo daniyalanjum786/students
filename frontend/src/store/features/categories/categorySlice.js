@@ -29,6 +29,29 @@ export const getAllCategories = createAsyncThunk(
     }
   }
 );
+export const getSingleCategory = createAsyncThunk(
+  "categories/getSingleCategory",
+  async (slug, thunkAPI) => {
+    try {
+      const response = await categoryService.readSingle(slug);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+export const updateCategory = createAsyncThunk(
+  "categories/updateCategory",
+  async ({ name, slug }, thunkAPI) => {
+    try {
+      const response = await categoryService.update({ name, slug });
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
+
 export const deleteCategory = createAsyncThunk(
   "categories/deleteCategory",
   async (slug, thunkAPI) => {
@@ -80,6 +103,30 @@ const categorySlice = createSlice({
         state.categories = action.payload;
       })
       .addCase(deleteCategory.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(getSingleCategory.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(getSingleCategory.fulfilled, (state, action) => {
+        state.status = "success";
+        state.categories = action.payload;
+      })
+      .addCase(getSingleCategory.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(updateCategory.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(updateCategory.fulfilled, (state, action) => {
+        state.status = "success";
+        state.categories = action.payload;
+      })
+      .addCase(updateCategory.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });

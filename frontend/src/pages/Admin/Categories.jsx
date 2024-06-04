@@ -27,9 +27,9 @@ import { toast } from "react-toastify";
 
 function Categories() {
   const dispatch = useDispatch();
-  const categories = useSelector((state) => state.categories.categories); // Modify this line
-  const status = useSelector((state) => state.categories.status); // Modify this line
-  const error = useSelector((state) => state.categories.error); // Modify this line
+  const categories = useSelector((state) => state.categories.categories);
+  const status = useSelector((state) => state.categories.status);
+  const error = useSelector((state) => state.categories.error);
   const navigate = useNavigate();
   const handleDelete = (slug) => {
     dispatch(deleteCategory(slug))
@@ -113,7 +113,17 @@ function Categories() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem>Edit</DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <button
+                              onClick={() => {
+                                navigate(
+                                  `/admin/categories/update/${category.slug}`
+                                );
+                              }}
+                            >
+                              Edit
+                            </button>
+                          </DropdownMenuItem>
                           <DropdownMenuItem>
                             <button
                               onClick={() => {
