@@ -31,6 +31,7 @@ function Categories() {
   const status = useSelector((state) => state.categories.status);
   const error = useSelector((state) => state.categories.error);
   const navigate = useNavigate();
+  // delete category
   const handleDelete = (slug) => {
     dispatch(deleteCategory(slug))
       .unwrap()

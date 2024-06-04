@@ -1,5 +1,13 @@
 import { Button } from "@/components/ui/button";
 import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Card,
   CardContent,
   CardDescription,
@@ -9,11 +17,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { getAllCategories } from "@/store/features/categories/categorySlice";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 function AddProduct() {
+  const dispatch = useDispatch();
   const [inputValues, setInputValues] = useState({});
-  // const { status } = useSelector((state) => state.auth);
+  const categories = useSelector((state) => state.categories?.categories);
+  const status = useSelector((state) => state.categories.status);
+  const error = useSelector((state) => state.categories.error);
 
   // const navigate = useNavigate();
   // const dispatch = useDispatch();
@@ -22,6 +35,9 @@ function AddProduct() {
     const name = event.target.name;
     const value = event.target.value;
     setInputValues((values) => ({ ...values, [name]: value }));
+  };
+  const handleCategoryChange = (value) => {
+    setInputValues((values) => ({ ...values, category: value }));
   };
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -43,6 +59,25 @@ function AddProduct() {
     //     toast.error(error, { autoClose: 2000 });
     //   });
   };
+  useEffect(() => {
+    dispatch(getAllCategories());
+  }, [dispatch]);
+
+  if (status === "loading") {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <p>Loading users...</p>
+      </div>
+    );
+  }
+
+  if (status === "failed") {
+    return (
+      <div className="flex justify-center items-center h-full">
+        <p>{error}</p>
+      </div>
+    );
+  }
   return (
     <>
       <Card x-chunk="dashboard-07-chunk-0">
@@ -53,7 +88,7 @@ function AddProduct() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="grid gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="title">Title</Label>
@@ -82,16 +117,40 @@ function AddProduct() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="category">Category</Label>
-                  <Input
-                    id="category"
-                    type="text"
-                    placeholder="Enter Product Category"
-                    required
-                    name="category"
-                    value={inputValues.category || ""}
-                    onChange={handleChange}
-                  />
+                  <Select onValueChange={handleCategoryChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {categories &&
+                          categories.categories &&
+                          categories.categories.map((category) => (
+                            <SelectItem key={category._id} value={category._id}>
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
                 </div>
+              </div>
+              <div className="grid gap-3">
+                <Label htmlFor="picture">Product Picture</Label>
+                <Input
+                  id="picture"
+                  type="file"
+                  required
+                  name="picture"
+                  onChange={(e) =>
+                    handleChange({
+                      target: {
+                        name: "picture",
+                        value: e.target.files[0],
+                      },
+                    })
+                  }
+                />
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="description">Description</Label>
