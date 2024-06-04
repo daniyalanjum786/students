@@ -157,7 +157,10 @@ const deleteProductController = async (req, res) => {
 // Controller to get all products
 const getAllProductsController = async (req, res) => {
   try {
-    const products = await productModel.find().populate("user", "name email"); // Adjust the populate fields as needed
+    const products = await productModel
+      .find()
+      .populate("user", "name email")
+      .populate("category", "name"); // Adjust the populate fields as needed
     return res.status(200).send({
       success: true,
       message: "Products fetched successfully",
