@@ -2,12 +2,12 @@ import axios from "axios";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const create = async (category) => {
+const create = async (productsData) => {
   try {
-    const response = await axios.post(`${BASE_URL}/categories`, category, {
+    const response = await axios.post(`${BASE_URL}/products`, productsData, {
       withCredentials: true,
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
     });
     return response.data;

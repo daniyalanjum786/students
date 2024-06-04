@@ -20,16 +20,17 @@ import { Textarea } from "@/components/ui/textarea";
 import { getAllCategories } from "@/store/features/categories/categorySlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addProduct } from "@/store/features/products/productsSlice";
+import { toast } from "react-toastify";
 
 function AddProduct() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [inputValues, setInputValues] = useState({});
   const categories = useSelector((state) => state.categories?.categories);
   const status = useSelector((state) => state.categories.status);
   const error = useSelector((state) => state.categories.error);
-
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -43,21 +44,21 @@ function AddProduct() {
     event.preventDefault();
     console.log(inputValues);
     // sending data from frontend to backend
-    // dispatch(login(inputValues))
-    //   .unwrap()
-    //   .then((response) => {
-    //     if (response?.success == true) {
-    //       toast.success(response.message, { autoClose: 2000 });
-    //       setTimeout(() => {
-    //         navigate("/");
-    //       }, 2000);
-    //     } else {
-    //       toast.error(response.message, { autoClose: 2000 });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     toast.error(error, { autoClose: 2000 });
-    //   });
+    dispatch(addProduct(inputValues))
+      .unwrap()
+      .then((response) => {
+        if (response?.success == true) {
+          toast.success(response.message, { autoClose: 2000 });
+          setTimeout(() => {
+            navigate("/admin/categories");
+          }, 2000);
+        } else {
+          toast.error(response.message, { autoClose: 2000 });
+        }
+      })
+      .catch((error) => {
+        toast.error(error, { autoClose: 2000 });
+      });
   };
   useEffect(() => {
     dispatch(getAllCategories());

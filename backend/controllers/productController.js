@@ -8,6 +8,7 @@ import productModel from "../models/productModel.js";
 const createProductController = async (req, res) => {
   try {
     const { title, description, category, price } = req.body;
+    console.log(req.body);
     const picture = req.file?.fieldname;
     const picturePath = req.file?.path;
 

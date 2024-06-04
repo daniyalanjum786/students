@@ -2,22 +2,22 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import productsService from "./productsService.js";
 
 const initialState = {
-  categories: [],
+  products: [],
   status: "idle",
   error: null,
 };
 
-// export const addCategory = createAsyncThunk(
-//   "categories/addCategory",
-//   async (categoryName, thunkAPI) => {
-//     try {
-//       const response = await categoryService.create(categoryName);
-//       return response;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   }
-// );
+export const addProduct = createAsyncThunk(
+  "products/addProduct",
+  async (productsData, thunkAPI) => {
+    try {
+      const response = await productsService.create(productsData);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 // export const getAllCategories = createAsyncThunk(
 //   "categories/getAllCategories",
 //   async (thunkAPI) => {
@@ -68,21 +68,21 @@ const productSlice = createSlice({
   name: "products",
   initialState,
   reducers: {},
-  // extraReducers: (builder) => {
-  // builder
-  //   .addCase(addCategory.pending, (state) => {
-  //     state.status = "loading";
-  //     state.error = null;
-  //   })
-  //   .addCase(addCategory.fulfilled, (state, action) => {
-  //     state.status = "success";
-  //     state.categories = action.payload;
-  //   })
-  //   .addCase(addCategory.rejected, (state, action) => {
-  //     state.status = "failed";
-  //     state.error = action.payload;
-  //   });
-  // },
+  extraReducers: (builder) => {
+    builder
+      .addCase(addProduct.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(addProduct.fulfilled, (state, action) => {
+        state.status = "success";
+        state.products = action.payload;
+      })
+      .addCase(addProduct.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      });
+  },
 });
 
 export default productSlice.reducer;

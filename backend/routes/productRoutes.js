@@ -30,13 +30,7 @@ productRouter.put(
   upload.single("picture"),
   updateProductController
 );
-productRouter.get(
-  "/:productId",
-  isAuthorized,
-  isAdmin,
-  upload.single("picture"),
-  getSingleProductController
-);
+productRouter.get("/:productId", getSingleProductController);
 productRouter.delete(
   "/:productId",
   isAuthorized,
