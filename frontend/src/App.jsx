@@ -18,6 +18,7 @@ import Profile from "./pages/Profile";
 import Categories from "./pages/Admin/Categories";
 import AddCategory from "./pages/Admin/AddCategory";
 import UpdateCategory from "./pages/Admin/UpdateCategory";
+import UpdateProduct from "./pages/Admin/UpdateProduct";
 
 function App() {
   const location = useLocation();
@@ -33,6 +34,10 @@ function App() {
           <Route path="categories" element={<Categories />} />
           <Route path="categories/add" element={<AddCategory />} />
           <Route path="categories/update/:slug" element={<UpdateCategory />} />
+          <Route
+            path="products/update/:productId"
+            element={<UpdateProduct />}
+          />
           <Route path="users" element={<Users />} />
           <Route path="orders" element={<Orders />} />
         </Route>

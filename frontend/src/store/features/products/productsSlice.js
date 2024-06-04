@@ -18,17 +18,17 @@ export const addProduct = createAsyncThunk(
     }
   }
 );
-// export const getAllCategories = createAsyncThunk(
-//   "categories/getAllCategories",
-//   async (thunkAPI) => {
-//     try {
-//       const response = await categoryService.readAll();
-//       return response;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   }
-// );
+export const getAllProducts = createAsyncThunk(
+  "products/getAllProducts",
+  async (thunkAPI) => {
+    try {
+      const response = await productsService.readAll();
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 // export const getSingleCategory = createAsyncThunk(
 //   "categories/getSingleCategory",
 //   async (slug, thunkAPI) => {
@@ -52,17 +52,17 @@ export const addProduct = createAsyncThunk(
 //   }
 // );
 
-// export const deleteCategory = createAsyncThunk(
-//   "categories/deleteCategory",
-//   async (slug, thunkAPI) => {
-//     try {
-//       const response = await categoryService.deleteCat(slug);
-//       return response;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   }
-// );
+export const deleteProduct = createAsyncThunk(
+  "products/deleteProduct",
+  async (productId, thunkAPI) => {
+    try {
+      const response = await productsService.deletePro(productId);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 const productSlice = createSlice({
   name: "products",
@@ -79,6 +79,30 @@ const productSlice = createSlice({
         state.products = action.payload;
       })
       .addCase(addProduct.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(getAllProducts.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(getAllProducts.fulfilled, (state, action) => {
+        state.status = "success";
+        state.products = action.payload;
+      })
+      .addCase(getAllProducts.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(deleteProduct.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(deleteProduct.fulfilled, (state, action) => {
+        state.status = "success";
+        state.products = action.payload;
+      })
+      .addCase(deleteProduct.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });

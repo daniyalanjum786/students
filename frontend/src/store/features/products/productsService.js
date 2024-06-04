@@ -17,21 +17,21 @@ const create = async (productsData) => {
     return Promise.reject(errorMessage);
   }
 };
-// const readAll = async () => {
-//   try {
-//     const response = await axios.get(`${BASE_URL}/categories`, {
-//       withCredentials: true,
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     const errorMessage =
-//       error.response?.data?.message || error.message || "Something went wrong";
-//     return Promise.reject(errorMessage);
-//   }
-// };
+const readAll = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/products`, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.message || error.message || "Something went wrong";
+    return Promise.reject(errorMessage);
+  }
+};
 // const readSingle = async (slug) => {
 //   try {
 //     const response = await axios.get(`${BASE_URL}/categories/${slug}`, {
@@ -67,21 +67,21 @@ const create = async (productsData) => {
 //   }
 // };
 
-// const deleteCat = async (slug) => {
-//   try {
-//     const response = await axios.delete(`${BASE_URL}/categories/${slug}`, {
-//       withCredentials: true,
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     const errorMessage =
-//       error.response?.data?.message || error.message || "Something went wrong";
-//     return Promise.reject(errorMessage);
-//   }
-// };
+const deletePro = async (productId) => {
+  try {
+    const response = await axios.delete(`${BASE_URL}/products/${productId}`, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.message || error.message || "Something went wrong";
+    return Promise.reject(errorMessage);
+  }
+};
 
-const productService = { create };
+const productService = { create, readAll, deletePro };
 export default productService;

@@ -50,7 +50,7 @@ function AddProduct() {
         if (response?.success == true) {
           toast.success(response.message, { autoClose: 2000 });
           setTimeout(() => {
-            navigate("/admin/categories");
+            navigate("/admin/products");
           }, 2000);
         } else {
           toast.error(response.message, { autoClose: 2000 });
