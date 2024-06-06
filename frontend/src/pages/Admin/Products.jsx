@@ -110,10 +110,10 @@ function Products() {
                     </TableCell>
                     <TableCell>{product.category.name}</TableCell>
                     <TableCell>{product.price}</TableCell>
-                    <TableCell>{product.user.name}</TableCell>
                     <TableCell>
                       {moment(product.createdAt).format("DD-MM-YYYY")}
                     </TableCell>
+                    <TableCell>{product.user.name}</TableCell>
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>

@@ -32,21 +32,21 @@ const readAll = async () => {
     return Promise.reject(errorMessage);
   }
 };
-// const readSingle = async (slug) => {
-//   try {
-//     const response = await axios.get(`${BASE_URL}/categories/${slug}`, {
-//       withCredentials: true,
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
-//     return response.data;
-//   } catch (error) {
-//     const errorMessage =
-//       error.response?.data?.message || error.message || "Something went wrong";
-//     return Promise.reject(errorMessage);
-//   }
-// };
+const readSingle = async (productId) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/products/${productId}`, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    return response.data;
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.message || error.message || "Something went wrong";
+    return Promise.reject(errorMessage);
+  }
+};
 // const update = async ({ name, slug }) => {
 //   try {
 //     const response = await axios.put(
@@ -83,5 +83,5 @@ const deletePro = async (productId) => {
   }
 };
 
-const productService = { create, readAll, deletePro };
+const productService = { create, readAll, deletePro, readSingle };
 export default productService;

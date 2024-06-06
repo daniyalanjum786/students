@@ -29,17 +29,17 @@ export const getAllProducts = createAsyncThunk(
     }
   }
 );
-// export const getSingleCategory = createAsyncThunk(
-//   "categories/getSingleCategory",
-//   async (slug, thunkAPI) => {
-//     try {
-//       const response = await categoryService.readSingle(slug);
-//       return response;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   }
-// );
+export const getSingleProduct = createAsyncThunk(
+  "categories/getSingleProduct",
+  async (productId, thunkAPI) => {
+    try {
+      const response = await productsService.readSingle(productId);
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 // export const updateCategory = createAsyncThunk(
 //   "categories/updateCategory",
 //   async ({ name, slug }, thunkAPI) => {
@@ -91,6 +91,18 @@ const productSlice = createSlice({
         state.products = action.payload;
       })
       .addCase(getAllProducts.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(getSingleProduct.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(getSingleProduct.fulfilled, (state, action) => {
+        state.status = "success";
+        state.products = action.payload;
+      })
+      .addCase(getSingleProduct.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       })
