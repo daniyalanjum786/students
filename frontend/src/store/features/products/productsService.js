@@ -47,25 +47,25 @@ const readSingle = async (productId) => {
     return Promise.reject(errorMessage);
   }
 };
-// const update = async ({ name, slug }) => {
-//   try {
-//     const response = await axios.put(
-//       `${BASE_URL}/categories/${slug}`,
-//       { name },
-//       {
-//         withCredentials: true,
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//       }
-//     );
-//     return response.data;
-//   } catch (error) {
-//     const errorMessage =
-//       error.response?.data?.message || error.message || "Something went wrong";
-//     return Promise.reject(errorMessage);
-//   }
-// };
+const update = async ({ inputValues, productId }) => {
+  try {
+    const response = await axios.put(
+      `${BASE_URL}/products/${productId}`,
+      inputValues,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    const errorMessage =
+      error.response?.data?.message || error.message || "Something went wrong";
+    return Promise.reject(errorMessage);
+  }
+};
 
 const deletePro = async (productId) => {
   try {
@@ -83,5 +83,5 @@ const deletePro = async (productId) => {
   }
 };
 
-const productService = { create, readAll, deletePro, readSingle };
+const productService = { create, readAll, deletePro, readSingle, update };
 export default productService;

@@ -68,7 +68,7 @@ const updateProductController = async (req, res) => {
     const { productId } = req.params;
     const { title, description, category, price } = req.body;
     const picturePath = req.file?.path;
-
+    const picture = req.file?.fieldname;
     // Find the product by ID
     const product = await productModel.findById(productId);
     if (!product) {

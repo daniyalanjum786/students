@@ -32,8 +32,8 @@ function Products() {
   const error = useSelector((state) => state.products.error);
   const navigate = useNavigate();
   // delete product
-  const handleDelete = (slug) => {
-    dispatch(deleteProduct(slug))
+  const handleDelete = (productId) => {
+    dispatch(deleteProduct(productId))
       .unwrap()
       .then((response) => {
         if (response?.success == true) {

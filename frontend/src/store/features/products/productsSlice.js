@@ -40,17 +40,17 @@ export const getSingleProduct = createAsyncThunk(
     }
   }
 );
-// export const updateCategory = createAsyncThunk(
-//   "categories/updateCategory",
-//   async ({ name, slug }, thunkAPI) => {
-//     try {
-//       const response = await categoryService.update({ name, slug });
-//       return response;
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   }
-// );
+export const updateProduct = createAsyncThunk(
+  "products/updateProduct",
+  async ({ inputValues, productId }, thunkAPI) => {
+    try {
+      const response = await productsService.update({ inputValues, productId });
+      return response;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+    }
+  }
+);
 
 export const deleteProduct = createAsyncThunk(
   "products/deleteProduct",

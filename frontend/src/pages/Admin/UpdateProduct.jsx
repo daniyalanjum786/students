@@ -18,42 +18,83 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { getAllCategories } from "@/store/features/categories/categorySlice";
-import { getSingleProduct } from "@/store/features/products/productsSlice";
+import {
+  getSingleProduct,
+  updateProduct,
+} from "@/store/features/products/productsSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function UpdateProduct() {
-  const [inputValues, setInputValues] = useState({});
+  const [inputValues, setInputValues] = useState({
+    title: "",
+    price: "",
+    category: "",
+    picture: "",
+    description: "",
+  });
   const categories = useSelector((state) => state.categories.categories);
-  const products = useSelector((state) => state.products.products);
   const catStatus = useSelector((state) => state.categories.status);
   const catError = useSelector((state) => state.categories.error);
-  const prodStatus = useSelector((state) => state.categories.status);
-  const prodError = useSelector((state) => state.categories.error);
+  const products = useSelector((state) => state.products.products);
+  const prodStatus = useSelector((state) => state.products.status);
+  const prodError = useSelector((state) => state.products.error);
   const { productId } = useParams();
+  const [prevPic, setPrevPic] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleChange = () => {};
-  const handleCategoryChange = () => {};
+  // Handle input change
+  const handleChange = (event) => {
+    const { name, value, type, files } = event.target;
+    setInputValues((values) => ({
+      ...values,
+      [name]: type === "file" ? files[0] : value,
+    }));
+  };
+  const handleCategoryChange = (value) => {
+    setInputValues((values) => ({ ...values, category: value }));
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(inputValues);
+    dispatch(updateProduct({ inputValues, productId }))
+      .unwrap()
+      .then((response) => {
+        if (response?.success == true) {
+          toast.success(response.message, { autoClose: 2000 });
+          navigate("/admin/products");
+        } else {
+          toast.error(response.message, { autoClose: 2000 });
+        }
+      })
+      .catch((error) => {
+        toast.error(error, { autoClose: 2000 });
+      });
+  };
+
   useEffect(() => {
-    dispatch(getSingleProduct(productId))
-      .unwrap()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    dispatch(getAllCategories())
-      .unwrap()
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // For Getting Product Details - Product Collection
+    dispatch(getSingleProduct(productId));
+    // For Getting Category Details - Category Collection
+    dispatch(getAllCategories());
   }, [productId, dispatch]);
+
+  useEffect(() => {
+    if (products && products.product) {
+      const { title, price, category, picture, description } = products.product;
+      setInputValues({
+        title: title,
+        price: price,
+        category: category,
+        picture: picture.picture_url,
+        description: description,
+      });
+      setPrevPic(picture.picture_url);
+    }
+  }, [products]);
 
   if (catStatus === "loading" || prodStatus === "loading") {
     return (
@@ -81,7 +122,7 @@ function UpdateProduct() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form encType="multipart/form-data">
+          <form onSubmit={handleSubmit} encType="multipart/form-data">
             <div className="grid gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="title">Title</Label>
@@ -110,7 +151,10 @@ function UpdateProduct() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="category">Category</Label>
-                  <Select onValueChange={handleCategoryChange}>
+                  <Select
+                    value={inputValues.category}
+                    onValueChange={handleCategoryChange}
+                  >
                     <SelectTrigger>
                       <SelectValue placeholder="Select Category" />
                     </SelectTrigger>
@@ -129,23 +173,35 @@ function UpdateProduct() {
                   </Select>
                 </div>
               </div>
-              <div className="grid gap-3">
-                <Label htmlFor="picture">Product Picture</Label>
-                <Input
-                  id="picture"
-                  type="file"
-                  required
-                  name="picture"
-                  onChange={(e) =>
-                    handleChange({
-                      target: {
-                        name: "picture",
-                        value: e.target.files[0],
-                      },
-                    })
-                  }
-                />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="grid gap-3">
+                  <Label htmlFor="picture">Product Picture</Label>
+                  <Input
+                    id="picture"
+                    type="file"
+                    required
+                    name="picture"
+                    onChange={(e) =>
+                      handleChange({
+                        target: {
+                          name: "picture",
+                          value: e.target.files[0],
+                        },
+                      })
+                    }
+                  />
+                </div>
+                <div className="grid gap-3">
+                  <Label htmlFor="picture"> Previous Picture</Label>
+                  <img
+                    src={prevPic}
+                    className="aspect-square rounded-md object-cover"
+                    height="100"
+                    width="100"
+                  />
+                </div>
               </div>
+
               <div className="grid gap-3">
                 <Label htmlFor="description">Description</Label>
                 <Textarea
