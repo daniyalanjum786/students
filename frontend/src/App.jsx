@@ -19,6 +19,7 @@ import Categories from "./pages/Admin/Categories";
 import AddCategory from "./pages/Admin/AddCategory";
 import UpdateCategory from "./pages/Admin/UpdateCategory";
 import UpdateProduct from "./pages/Admin/UpdateProduct";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   const location = useLocation();
@@ -44,6 +45,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/shop" element={<Shop />} />
+        <Route path="/product/:productId" element={<ProductDetails />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />

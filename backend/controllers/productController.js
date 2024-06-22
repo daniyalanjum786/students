@@ -183,7 +183,8 @@ const getSingleProductController = async (req, res) => {
     // Find the product by ID and populate the user field
     const product = await productModel
       .findById(productId)
-      .populate("user", "name email");
+      .populate("user", "name email")
+      .populate("category", "name");
 
     if (!product) {
       return res
